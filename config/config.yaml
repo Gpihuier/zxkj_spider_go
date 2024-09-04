@@ -1,0 +1,21 @@
+server:
+  max_threads: 20
+  max_timeout: 10 # 最大执行时间 单位: 秒
+  rate_limit: 2   # 爬取间隔时间 单位: 秒
+  mode: pro       # 模式: dev/pro
+
+log:
+  level: info
+  file: ../../log/app.log
+
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  database: spider-go
+
+redis:
+  Addr: 127.0.0.1:6379
+  Password: ''
+  db: 0
