@@ -32,3 +32,28 @@ func CompleteURL(baseURL, rawURL string) (string, error) {
 	// 生成完整的URL]
 	return u.String(), nil
 }
+
+func MustCompleteURL(baseURL, rawURL string) string {
+	// 解析基础URL（包含协议和域名）
+	base, err := url.Parse(baseURL)
+	if err != nil {
+		panic(err)
+	}
+
+	// 解析爬取的URL
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		panic(err)
+	}
+
+	// 如果没有携带域名，则补全
+	if u.Scheme == "" {
+		u.Scheme = base.Scheme
+	}
+	if u.Host == "" {
+		u.Host = base.Host
+	}
+
+	// 生成完整的URL]
+	return u.String()
+}

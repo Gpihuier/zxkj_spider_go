@@ -14,10 +14,10 @@ type App struct {
 	Cache *redis.Client
 }
 
-func NewApp(cfg *config.Config, db *gorm.DB, cache *redis.Client) *App {
+func NewApp(cfg *config.Config, db *gorm.DB, log *logger.Logger, cache *redis.Client) *App {
 	return &App{
 		Cfg:   cfg,
-		Log:   logger.New(cfg.Log.File),
+		Log:   log,
 		DB:    db,
 		Cache: cache,
 	}

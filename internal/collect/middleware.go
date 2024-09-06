@@ -2,6 +2,7 @@ package collect
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -17,7 +18,7 @@ var (
 
 type Middleware interface {
 	Before(ctx context.Context, url string) error
-	After(ctx context.Context, url string, html string) error
+	After(ctx context.Context, item *Item) error
 }
 
 type RedisMiddleware struct {
@@ -44,8 +45,13 @@ func (r *RedisMiddleware) Before(ctx context.Context, url string) error {
 	return ErrCacheExists
 }
 
-func (r *RedisMiddleware) After(ctx context.Context, url string, html string) error {
-	return nil
+func (r *RedisMiddleware) After(ctx context.Context, item *Item) error {
+	dj, err := json.Marshal(item.Data)
+	if err != nil {
+		return err
+	}
+
+	return r.Client.Set(ctx, cacheKeyPrefix+item.Url, string(dj), 0).Err()
 }
 
 type ProcessMiddleware struct {
@@ -59,6 +65,6 @@ func (r *ProcessMiddleware) Before(ctx context.Context, url string) error {
 	return nil
 }
 
-func (r *ProcessMiddleware) After(ctx context.Context, url string, html string) error {
+func (r *ProcessMiddleware) After(ctx context.Context, item *Item) error {
 	return nil
 }

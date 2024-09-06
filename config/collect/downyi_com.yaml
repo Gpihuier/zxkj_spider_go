@@ -1,8 +1,8 @@
 domain_url: 'http://www.downyi.com'
-middleware_func: 'foo'
 
 soft:
-  url: 'http://www.downyi.com/anzhuo/s_{297|299|295|300|301|298|296}_1.html'
+  urls:
+    - 'http://www.downyi.com/anzhuo/s_{297|299|295|300|301|298|296}_1.html'
   list:
     node: '//ul[@class="pl"]/li/div[1]/a'
     href: './@href'
@@ -23,6 +23,7 @@ soft:
     title:
       trim:
         - '- 当易网'
+        - '-当易网'
     keywords:
       replace:
         - ',': '-'
@@ -36,7 +37,8 @@ soft:
         - '当易网': '本站'
 
 news:
-  url: 'http://www.downyi.com/news/s_{297|299|295|300|301|298|296}_1.html'
+  urls:
+    - 'http://www.downyi.com/news/s_{297|299|295|300|301|298|296}_1.html'
   list:
     node: '//ul[@class="pl"]/li/div[1]/a'
     href: './@href'

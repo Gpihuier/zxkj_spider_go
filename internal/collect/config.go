@@ -9,13 +9,14 @@ import (
 )
 
 type Config struct {
+	Name      string   `mapstructure:"name"`
 	DomainUrl string   `mapstructure:"domain_url"`
 	Soft      Template `mapstructure:"soft"`
 	News      Template `mapstructure:"news"`
 }
 
 type Template struct {
-	Url  string `mapstructure:"url"`
+	Urls []string `mapstructure:"urls"`
 	List struct {
 		Node string `mapstructure:"node"`
 		Href string `mapstructure:"href"`
@@ -58,6 +59,9 @@ func LoadTasks() <-chan *Config {
 			if err = config.Decode(&template); err != nil {
 				slog.Error(err)
 				return
+			}
+			if template.Name == "" {
+				template.Name = task
 			}
 
 			ch <- &template
