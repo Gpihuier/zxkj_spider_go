@@ -7,24 +7,24 @@ import (
 )
 
 func init() {
-	Register("downyi_com", NewDownyiCom())
+	Register("www_downyi_com", NewDownyiCom())
 }
 
-type DownyiCom struct {
+type WwwDownyiCom struct {
 	BashModel
 }
 
 func NewDownyiCom() Impl {
-	return &DownyiCom{}
+	return &WwwDownyiCom{}
 }
 
-func (d *DownyiCom) Process(db *gorm.DB, url string, data map[string]any) error {
+func (d *WwwDownyiCom) Process(db *gorm.DB, url string, data map[string]any) error {
 	dj, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
 
-	item := DownyiCom{
+	item := WwwDownyiCom{
 		BashModel{
 			Url:     url,
 			Content: string(dj),
@@ -36,4 +36,8 @@ func (d *DownyiCom) Process(db *gorm.DB, url string, data map[string]any) error 
 	}
 	return nil
 
+}
+
+func (d *WwwDownyiCom) TableName() string {
+	return "www_downyi_com"
 }

@@ -36,8 +36,10 @@ func (p *Parse) ParseListUrl(urls []string) ([]string, error) {
 			return nil, err
 		}
 		matched := re.FindStringSubmatch(url)
+		// 如果没有匹配到大括号，直接输出原数据
 		if len(matched) <= 1 {
-			return nil, errors.New("no match found")
+			res = append(res, url)
+			continue
 		}
 
 		// 分割字符串
@@ -102,6 +104,8 @@ func (p *Parse) ParseContext(html string, template Template) (map[string]any, er
 			if node != nil {
 				data[key] = htmlquery.OutputHTML(node, false)
 			}
+		} else if strings.HasPrefix(xpath, "text:") {
+			data[key] = strings.TrimPrefix(strings.TrimSpace(xpath), "text:")
 		} else {
 			node := htmlquery.FindOne(doc, xpath)
 			if node != nil {
@@ -168,19 +172,19 @@ func (p *Parse) ParseProcess(data map[string]any, domainUrl string, template Tem
 			}
 		}
 
-		if key == "image" {
-			data[key] = helper.MustCompleteURL(domainUrl, data[key].(string))
+		if key == "content" {
+			data[key], err = p.ParseContent(data[key].(string), domainUrl, data["title"].(string))
+			if err != nil {
+				return nil, err
+			}
 		}
 
 		if key == "images" {
 			data[key] = p.ParseImages(data[key].([]string), domainUrl)
 		}
 
-		if key == "content" {
-			data[key], err = p.ParseContent(data[key].(string), domainUrl, data["title"].(string))
-			if err != nil {
-				return nil, err
-			}
+		if key == "image" {
+			data[key] = helper.MustCompleteURL(domainUrl, data[key].(string))
 		}
 
 		if key == "release_at" && data[key] == "" {

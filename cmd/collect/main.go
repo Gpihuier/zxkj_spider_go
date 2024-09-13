@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/gookit/config/v2/yaml"
 	"zxkj.com/zxkj_spider_go/internal/collect"
@@ -61,10 +62,33 @@ func main() {
 
 	go func() {
 		<-signals
-		fmt.Println("服务停止")
+		fmt.Println("采集服务停止")
 		cancel()
 	}()
 
 	// 开始采集
-	collect.Run(ctx, app)
+	Run(ctx, app)
+}
+
+func Run(ctx context.Context, app *service.App) {
+	for {
+		now := time.Now()
+		hour := now.Hour()
+
+		// 检查是否在 08:00 到 20:00 之间
+		if hour >= 8 && hour < 20 {
+			fmt.Println("开始采集:", now)
+			collect.Run(ctx, app)
+		} else {
+			fmt.Printf("当前时间 %s，不在 08:00 到 20:00 之间，跳过采集\n", now.Format("15:04"))
+		}
+
+		// 每次任务执行完成后，等待一小时再执行下一次任务
+		select {
+		case <-ctx.Done():
+			return
+		case <-time.After(1 * time.Hour):
+			// 执行下一个任务
+		}
+	}
 }

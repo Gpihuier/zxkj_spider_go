@@ -22,7 +22,7 @@ type PushSite struct {
 	UpdateTime time.Time `gorm:"autoUpdateTime;comment:更新时间"`
 	State      uint8     `gorm:"type:tinyint(1);not null;default:2;comment:状态 1成功 2失败"`
 	Retry      uint      `gorm:"type:int;unsigned;not null;default:0;comment:重试次数"`
-	DataId     int       `gorm:"index:uk_push,unique,comment:唯一索引;unsigned;not null;default:0;comment:内容序号"`
+	DataId     int64     `gorm:"index:uk_push,unique,comment:唯一索引;unsigned;not null;default:0;comment:内容序号"`
 	Domain     string    `gorm:"index:uk_push,unique,comment:唯一索引;type:varchar(50);not null;comment:站内域名"`
 	DataTable  string    `gorm:"index:uk_push,unique,comment:唯一索引;type:varchar(50);not null;comment:内容表名"`
 }
@@ -36,10 +36,10 @@ func Migrator(db *gorm.DB) error {
 		}
 	}
 
-	if !db.Migrator().HasTable(&DownyiCom{}) {
+	if !db.Migrator().HasTable(&WwwDownyiCom{}) {
 		if err := db.
 			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
-			AutoMigrate(&DownyiCom{}); err != nil {
+			AutoMigrate(&WwwDownyiCom{}); err != nil {
 			return err
 		}
 	}
@@ -48,6 +48,14 @@ func Migrator(db *gorm.DB) error {
 		if err := db.
 			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
 			AutoMigrate(&Www7K7k7Com{}); err != nil {
+			return err
+		}
+	}
+
+	if !db.Migrator().HasTable(&Www333tttCom{}) {
+		if err := db.
+			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
+			AutoMigrate(&Www333tttCom{}); err != nil {
 			return err
 		}
 	}

@@ -25,14 +25,14 @@ type RedisMiddleware struct {
 	Client *redis.Client
 }
 
-func NewRedisMiddleware(client *redis.Client) *RedisMiddleware {
+func NewRedisMiddleware(client *redis.Client) Middleware {
 	return &RedisMiddleware{
 		Client: client,
 	}
 }
 func (r *RedisMiddleware) Before(ctx context.Context, url string) error {
 	cacheKey := cacheKeyPrefix + url
-	_, err := r.Client.Get(ctx, cacheKey).Result()
+	res, err := r.Client.Get(ctx, cacheKey).Result()
 
 	if errors.Is(err, redis.Nil) {
 		return nil
@@ -42,7 +42,7 @@ func (r *RedisMiddleware) Before(ctx context.Context, url string) error {
 		return fmt.Errorf("redis error: %w", err)
 	}
 
-	return ErrCacheExists
+	return fmt.Errorf("cache is exists: %s", res)
 }
 
 func (r *RedisMiddleware) After(ctx context.Context, item *Item) error {
@@ -57,7 +57,7 @@ func (r *RedisMiddleware) After(ctx context.Context, item *Item) error {
 type ProcessMiddleware struct {
 }
 
-func NewProcessMiddleware() *ProcessMiddleware {
+func NewProcessMiddleware() Middleware {
 	return &ProcessMiddleware{}
 }
 

@@ -1,0 +1,26 @@
+domain_url: 'https://www.333ttt.com'
+
+news:
+  urls:
+    - 'https://www.333ttt.com/news/'
+  list:
+    node: '//a[@class="tit"]'
+    href: './@href'
+  content:
+    title: '/html/head/title/text()'
+    article_title: '//h1/text()'
+    keywords: '//meta[@name="keywords"]/@content'
+    description: '//meta[@name="description"]/@content'
+    category: 'text:游戏攻略'
+    image: '//div[@class="news_detail"]//img/@src'
+    content: 'html://div[@class="news_detail"]'
+  process:
+    title:
+      trim:
+        - '-要听下载站'
+    description:
+      replace:
+        - '要听下载站': '本站'
+    content:
+      replace:
+        - '要听下载站': '本站'

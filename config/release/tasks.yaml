@@ -1,0 +1,8 @@
+list:
+  www_7k7k7_com:
+    - http://cms.com/api.php?op=spider_go&debug=0
+  www_downyi_com:
+    - http://cms.com/api.php?op=spider_go&debug=0
+  www_333ttt_com:
+    - http://cms.com/api.php?op=spider_go&debug=0
+

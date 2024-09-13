@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gookit/slog"
+	"github.com/sourcegraph/conc/pool"
 	"zxkj.com/zxkj_spider_go/internal/collect/model"
 	"zxkj.com/zxkj_spider_go/internal/service"
 )
@@ -28,9 +29,14 @@ func Run(ctx context.Context, app *service.App) {
 		WithRateLimiter(time.Second*time.Duration(app.Cfg.Server.RateLimit)),
 	)
 
+	ps := pool.New().WithMaxGoroutines(app.Cfg.Server.MaxThreads)
+
 	// 获取任务
 	for task := range LoadTasks() {
-		crawler.Crawler(ctx, task)
+		ps.Go(func() {
+			crawler.Crawler(ctx, task)
+		})
 	}
 
+	ps.Wait()
 }

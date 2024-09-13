@@ -23,7 +23,7 @@ func NewRequest() *Request {
 			SetCommonHeaders(map[string]string{
 				"Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
 				"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-				"Cookie":          "Hm_lvt_b249ff02d75c7db5d3b272499b5ad516=1716184757; Hm_lvt_134f43513d609acd8dbd02453e16940f=1716185436; Hm_lvt_0f54047fed93dd36c9ed5f16f6c080b8=1717409270,1717468394; Hm_lpvt_0f54047fed93dd36c9ed5f16f6c080b8=1717470526",
+				"Cookie":          "Hm_lvt_b249ff02d75c7db5d3b272499b5ad516=1716184757; Hm_lvt_134f43513d609acd8dbd02453e16940                                            bmx f=1716185436; Hm_lvt_0f54047fed93dd36c9ed5f16f6c080b8=1717409270,1717468394; Hm_lpvt_0f54047fed93dd36c9ed5f16f6c080b8=1717470526",
 			}).
 			SetCommonRetryCount(3).
 			OnAfterResponse(func(client *req.Client, resp *req.Response) error {

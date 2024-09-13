@@ -11,10 +11,10 @@ soft:
     soft_name: '//h1/text()'
     keywords: '//meta[@name="keywords"]/@content'
     description: '//meta[@name="description"]/@content'
-    category': '//div[@class="breadcrumb"]/a[3]/text()'
-    image': '//div[@class="param"]/div[1]/p/img/@src'
+    category: '//div[@class="breadcrumb"]/a[3]/text()'
+    image: '//div[@class="param"]/div[1]/p/img/@src'
     images: 'array://div[@id="screen_show"]//img/@src'
-    content: '//div[@class="des"]'
+    content: 'html://div[@class="des"]'
     downfiles: '//div[@class="downlist"]/ul/li[1]/a/@href'
     filesize: '//ul[@class="param-ul"]/li[1]/span/text()'
     version: '//div[@class="param"]/div[1]/span/text()'
@@ -35,17 +35,3 @@ soft:
         - 'trim'
       replace:
         - '当易网': '本站'
-
-news:
-  urls:
-    - 'http://www.downyi.com/news/s_{297|299|295|300|301|298|296}_1.html'
-  list:
-    node: '//ul[@class="pl"]/li/div[1]/a'
-    href: './@href'
-  content:
-    title: '/html/head/title/text()'
-    article_title: '//h1/text()'
-    keywords: '//meta[@name="keywords"]/@content'
-    description: '//meta[@name="description"]/@content'
-    content: '//div[@class="newsinfor"]'
-    image: '//div[@class="newsinfor"]/p[2]//img/@src'

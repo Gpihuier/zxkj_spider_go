@@ -3,6 +3,7 @@ module zxkj.com/zxkj_spider_go
 go 1.23.0
 
 require (
+	github.com/PuerkitoBio/goquery v1.9.2
 	github.com/antchfx/htmlquery v1.3.2
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gookit/config/v2 v2.2.5
@@ -17,7 +18,6 @@ require (
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
-	github.com/PuerkitoBio/goquery v1.9.2 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/antchfx/xpath v1.3.1 // indirect
