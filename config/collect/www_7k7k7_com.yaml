@@ -2,9 +2,8 @@ domain_url: 'https://www.7k7k7.com.cn/'
 
 soft:
   urls:
-    #    - 'https://www.7k7k7.com.cn/game/{71|8|6|28|7|27|24|23|15}_1_1/'
-    #    - 'https://www.7k7k7.com.cn/soft/{29|32|35|33|42|30|19|44|9}_1_1/'
-    - 'https://www.7k7k7.com.cn/game/{71|8}_1_1/'
+    - 'https://www.7k7k7.com.cn/game/{71|8|6|28|7|27|24|23|15}_1_1/'
+    - 'https://www.7k7k7.com.cn/soft/{29|32|35|33|42|30|19|44|9}_1_1/'
   list:
     node: '//div[@class="list"]/ul/li'
     href: './a/@href'

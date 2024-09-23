@@ -5,7 +5,6 @@ import (
 
 	"github.com/gookit/config/v2/yaml"
 	"github.com/gookit/slog"
-
 	"github.com/sourcegraph/conc/pool"
 	"zxkj.com/zxkj_spider_go/internal/pkg/config"
 	"zxkj.com/zxkj_spider_go/internal/service"
@@ -27,7 +26,6 @@ func Run(ctx context.Context, app *service.App) {
 			release.Release(ctx, key, val)
 		})
 	}
-
 	ps.Wait()
 
 	if err = release.Wait(); err != nil {

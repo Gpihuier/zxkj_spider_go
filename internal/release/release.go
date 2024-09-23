@@ -84,7 +84,7 @@ func (r *Release) PushSite(ctx context.Context, tb, site string, data []map[stri
 
 	}
 
-	return nil
+	return err
 }
 
 func (r *Release) handlePushSite(ctx context.Context, tb, key string, item map[string]any, siteUrl string) error {
@@ -194,7 +194,6 @@ func (r *Release) buildForm(key string, content, url string) map[string]string {
 	sign := hex.EncodeToString(md5h[:])
 	return map[string]string{"time": now, "data": content, "hash": sign, "page": url}
 }
-
 func (r *Release) Wait() error {
 	return r.pool.Wait()
 }

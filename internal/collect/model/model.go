@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"sync"
 	"time"
 
@@ -36,30 +37,29 @@ func Migrator(db *gorm.DB) error {
 		}
 	}
 
-	if !db.Migrator().HasTable(&WwwDownyiCom{}) {
-		if err := db.
-			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
-			AutoMigrate(&WwwDownyiCom{}); err != nil {
-			return err
-		}
+	if err := createTableIfNotExists(db, &WwwDownyiCom{}); err != nil {
+		return err
 	}
 
-	if !db.Migrator().HasTable(&Www7K7k7Com{}) {
-		if err := db.
-			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
-			AutoMigrate(&Www7K7k7Com{}); err != nil {
-			return err
-		}
+	if err := createTableIfNotExists(db, &Www7K7k7Com{}); err != nil {
+		return err
 	}
 
-	if !db.Migrator().HasTable(&Www333tttCom{}) {
-		if err := db.
-			Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
-			AutoMigrate(&Www333tttCom{}); err != nil {
-			return err
-		}
+	if err := createTableIfNotExists(db, &Www333tttCom{}); err != nil {
+		return err
 	}
 
+	return nil
+}
+
+// 创建表的辅助函数
+func createTableIfNotExists(db *gorm.DB, model interface{}) error {
+	if !db.Migrator().HasTable(model) {
+		if err := db.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8mb4 COMMENT='数据表'").
+			AutoMigrate(model); err != nil {
+			return fmt.Errorf("failed to create table for %v: %w", model, err)
+		}
+	}
 	return nil
 }
 

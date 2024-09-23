@@ -54,8 +54,7 @@ func (r *RedisMiddleware) After(ctx context.Context, item *Item) error {
 	return r.Client.Set(ctx, cacheKeyPrefix+item.Url, string(dj), 0).Err()
 }
 
-type ProcessMiddleware struct {
-}
+type ProcessMiddleware struct{}
 
 func NewProcessMiddleware() Middleware {
 	return &ProcessMiddleware{}

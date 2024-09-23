@@ -135,7 +135,29 @@ func (p *Parse) ParseProcess(data map[string]any, domainUrl string, template Tem
 		return text
 	}
 
+	// 先处理title，方便后续其他字段使用
+	if val, ok := data["title"]; ok {
+		if v, ok := val.(string); ok {
+			if config, ok := template.Process["title"]; ok {
+				data["title"] = fn(v, config)
+			} else {
+				data["title"] = strings.TrimSpace(v)
+			}
+		}
+
+		// 如果 title 是 "暂未上线"，返回错误
+		if data["title"].(string) == "暂未上线" {
+			return nil, errors.New("暂未上线")
+		}
+	}
+
 	for key, val := range data {
+
+		// 跳过已经处理的 "title" 字段
+		if key == "title" {
+			continue
+		}
+
 		switch v := val.(type) {
 		case string:
 			if config, ok := template.Process[key]; ok {
@@ -145,13 +167,6 @@ func (p *Parse) ParseProcess(data map[string]any, domainUrl string, template Tem
 			}
 		default:
 			data[key] = v
-		}
-
-		// 再次处理数据
-		if key == "title" {
-			if data[key].(string) == "暂未上线" {
-				return nil, errors.New("暂未上线")
-			}
 		}
 
 		if key == "keyword" && data[key] == "" {
